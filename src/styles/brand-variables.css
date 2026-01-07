@@ -1,0 +1,243 @@
+/**
+ * IGNIS Protocol - Brand CSS Variables
+ * Copy these into your project's :root to apply IGNIS branding
+ */
+
+:root {
+    /* ═══════════════════════════════════════════════════════════════════════
+       BRAND COLORS
+       ═══════════════════════════════════════════════════════════════════════ */
+    
+    /* Primary Gold */
+    --color-gold: #F5B041;
+    --color-gold-dark: #D4941C;
+    --color-gold-gradient: linear-gradient(135deg, #F5B041, #D4941C);
+    
+    /* Fire Gradient (for text/heroes) */
+    --color-fire-gradient: linear-gradient(135deg, #EF4444, #F97316, #F5B041);
+    
+    /* ═══════════════════════════════════════════════════════════════════════
+       SEMANTIC COLORS
+       ═══════════════════════════════════════════════════════════════════════ */
+    
+    --color-success: #22C55E;
+    --color-success-light: #4ADE80;
+    --color-warning: #F59E0B;
+    --color-error: #EF4444;
+    --color-info: #3B82F6;
+    --color-purple: #A855F7;
+    --color-purple-light: #A78BFA;
+    
+    /* ═══════════════════════════════════════════════════════════════════════
+       BACKGROUND COLORS
+       ═══════════════════════════════════════════════════════════════════════ */
+    
+    --color-bg-primary: #0A0A0B;
+    --color-bg-card: rgba(25, 25, 28, 1);
+    --color-bg-card-end: rgba(18, 18, 20, 1);
+    --color-bg-card-gradient: linear-gradient(180deg, rgba(25,25,28,1) 0%, rgba(18,18,20,1) 100%);
+    --color-bg-card-alt: linear-gradient(135deg, rgba(22,22,26,1), rgba(18,18,22,1));
+    --color-bg-input: rgba(255, 255, 255, 0.02);
+    --color-bg-hover: rgba(255, 255, 255, 0.03);
+    --color-bg-button: rgba(255, 255, 255, 0.06);
+    --color-bg-table-header: rgba(0, 0, 0, 0.3);
+    --color-bg-table-alt: rgba(255, 255, 255, 0.01);
+    
+    /* ═══════════════════════════════════════════════════════════════════════
+       TEXT COLORS (WCAG 2.1 AA Compliant)
+       ═══════════════════════════════════════════════════════════════════════ */
+    
+    --color-text-primary: #FFFFFF;     /* 19.79:1 contrast */
+    --color-text-secondary: #A3A3A3;   /* 7.85:1 contrast */
+    --color-text-muted: #8A8A8A;       /* 5.73:1 contrast */
+    --color-text-disabled: #7A7A7A;    /* 4.61:1 contrast */
+    
+    /* ═══════════════════════════════════════════════════════════════════════
+       BORDER COLORS
+       ═══════════════════════════════════════════════════════════════════════ */
+    
+    --color-border: rgba(255, 255, 255, 0.06);
+    --color-border-light: rgba(255, 255, 255, 0.04);
+    --color-border-lighter: rgba(255, 255, 255, 0.03);
+    --color-border-input: rgba(255, 255, 255, 0.1);
+    
+    /* ═══════════════════════════════════════════════════════════════════════
+       TYPOGRAPHY
+       ═══════════════════════════════════════════════════════════════════════ */
+    
+    --font-display: 'Space Grotesk', sans-serif;
+    --font-body: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    --font-mono: 'JetBrains Mono', monospace;
+    
+    /* ═══════════════════════════════════════════════════════════════════════
+       BORDER RADIUS
+       ═══════════════════════════════════════════════════════════════════════ */
+    
+    --radius-xs: 3px;
+    --radius-sm: 4px;
+    --radius-md: 6px;
+    --radius-lg: 8px;
+    --radius-xl: 10px;
+    --radius-2xl: 12px;
+    --radius-3xl: 14px;
+    --radius-4xl: 16px;
+    --radius-5xl: 20px;
+    --radius-6xl: 24px;
+    --radius-full: 50%;
+    
+    /* ═══════════════════════════════════════════════════════════════════════
+       SHADOWS
+       ═══════════════════════════════════════════════════════════════════════ */
+    
+    --shadow-card: 0 8px 32px rgba(0, 0, 0, 0.3);
+    --shadow-gold: 0 4px 12px rgba(245, 176, 65, 0.3);
+    --shadow-modal: 0 20px 60px rgba(0, 0, 0, 0.5);
+    
+    /* ═══════════════════════════════════════════════════════════════════════
+       TRANSITIONS
+       ═══════════════════════════════════════════════════════════════════════ */
+    
+    --transition-fast: 0.15s ease;
+    --transition-normal: 0.2s ease;
+    --transition-slow: 0.3s ease;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   UTILITY CLASSES
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* Text gradient (fire effect for headlines) */
+.text-gradient {
+    background: var(--color-fire-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+/* Gold text */
+.gold-text {
+    color: var(--color-gold);
+}
+
+/* Display font */
+.font-display {
+    font-family: var(--font-display);
+}
+
+/* Mono font (for numbers, addresses) */
+.font-mono {
+    font-family: var(--font-mono);
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   BASE STYLES
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+body {
+    font-family: var(--font-body);
+    background: var(--color-bg-primary);
+    color: var(--color-text-primary);
+    line-height: 1.5;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   BUTTON VARIANTS
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+.btn {
+    font-family: var(--font-body);
+    font-weight: 600;
+    padding: 0.75rem 1.5rem;
+    border-radius: var(--radius-lg);
+    border: none;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+}
+
+.btn--primary {
+    background: var(--color-gold-gradient);
+    color: #000000;
+}
+
+.btn--primary:hover {
+    box-shadow: var(--shadow-gold);
+    transform: translateY(-1px);
+}
+
+.btn--secondary {
+    background: linear-gradient(135deg, rgba(245,176,65,0.15), rgba(245,176,65,0.05));
+    color: var(--color-gold);
+    border: 1px solid rgba(245,176,65,0.3);
+}
+
+.btn--secondary:hover {
+    background: linear-gradient(135deg, rgba(245,176,65,0.25), rgba(245,176,65,0.1));
+}
+
+.btn--ghost {
+    background: transparent;
+    color: var(--color-text-secondary);
+    border: 1px solid var(--color-border);
+}
+
+.btn--ghost:hover {
+    background: var(--color-bg-hover);
+    color: var(--color-text-primary);
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   CARD
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+.card {
+    background: var(--color-bg-card-gradient);
+    border: 1px solid var(--color-border-light);
+    border-radius: var(--radius-3xl);
+    padding: 1.5rem;
+}
+
+.card--clickable {
+    cursor: pointer;
+    transition: all var(--transition-fast);
+}
+
+.card--clickable:hover {
+    border-color: rgba(245, 176, 65, 0.3);
+    transform: translateY(-2px);
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   INPUT
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+.input {
+    width: 100%;
+    background: var(--color-bg-input);
+    border: 1px solid var(--color-border-input);
+    border-radius: var(--radius-lg);
+    padding: 0.875rem 1rem;
+    color: var(--color-text-primary);
+    font-family: var(--font-mono);
+    font-size: 1rem;
+    transition: all var(--transition-fast);
+}
+
+.input:focus {
+    border-color: var(--color-gold);
+    outline: none;
+    box-shadow: 0 0 0 4px rgba(245, 176, 65, 0.2);
+}
+
+.input::placeholder {
+    color: var(--color-text-disabled);
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   FLAME ICON GRADIENT (for SVG fills)
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+.flame-gradient {
+    --flame-start: #ea580c;
+    --flame-mid: #f97316;
+    --flame-end: #fbbf24;
+}
