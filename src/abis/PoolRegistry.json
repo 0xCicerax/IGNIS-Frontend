@@ -1,0 +1,884 @@
+[
+  {
+    "inputs": [],
+    "name": "InvalidAddress",
+    "type": "error"
+  },
+  {
+    "inputs": [],
+    "name": "InvalidTokenOrder",
+    "type": "error"
+  },
+  {
+    "inputs": [],
+    "name": "MaxPoolsPerPairReached",
+    "type": "error"
+  },
+  {
+    "inputs": [],
+    "name": "PoolAlreadyExists",
+    "type": "error"
+  },
+  {
+    "inputs": [],
+    "name": "PoolNotFound",
+    "type": "error"
+  },
+  {
+    "inputs": [],
+    "name": "Unauthorized",
+    "type": "error"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "internalType": "bytes32",
+        "name": "poolId",
+        "type": "bytes32",
+        "indexed": true
+      },
+      {
+        "internalType": "address",
+        "name": "token0",
+        "type": "address",
+        "indexed": true
+      },
+      {
+        "internalType": "address",
+        "name": "token1",
+        "type": "address",
+        "indexed": true
+      },
+      {
+        "internalType": "uint16",
+        "name": "binStep",
+        "type": "uint16"
+      },
+      {
+        "internalType": "address",
+        "name": "hooks",
+        "type": "address"
+      }
+    ],
+    "name": "BinPoolRegistered",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "internalType": "bytes32",
+        "name": "poolId",
+        "type": "bytes32",
+        "indexed": true
+      },
+      {
+        "internalType": "address",
+        "name": "token0",
+        "type": "address",
+        "indexed": true
+      },
+      {
+        "internalType": "address",
+        "name": "token1",
+        "type": "address",
+        "indexed": true
+      }
+    ],
+    "name": "BinPoolRemoved",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "internalType": "bytes32",
+        "name": "poolId",
+        "type": "bytes32",
+        "indexed": true
+      },
+      {
+        "internalType": "uint128",
+        "name": "reserveX",
+        "type": "uint128"
+      },
+      {
+        "internalType": "uint128",
+        "name": "reserveY",
+        "type": "uint128"
+      },
+      {
+        "internalType": "uint24",
+        "name": "activeId",
+        "type": "uint24"
+      }
+    ],
+    "name": "BinPoolUpdated",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "internalType": "bytes32",
+        "name": "poolId",
+        "type": "bytes32",
+        "indexed": true
+      },
+      {
+        "internalType": "address",
+        "name": "token0",
+        "type": "address",
+        "indexed": true
+      },
+      {
+        "internalType": "address",
+        "name": "token1",
+        "type": "address",
+        "indexed": true
+      },
+      {
+        "internalType": "uint24",
+        "name": "fee",
+        "type": "uint24"
+      },
+      {
+        "internalType": "int24",
+        "name": "tickSpacing",
+        "type": "int24"
+      },
+      {
+        "internalType": "address",
+        "name": "hooks",
+        "type": "address"
+      }
+    ],
+    "name": "CLPoolRegistered",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "internalType": "bytes32",
+        "name": "poolId",
+        "type": "bytes32",
+        "indexed": true
+      },
+      {
+        "internalType": "address",
+        "name": "token0",
+        "type": "address",
+        "indexed": true
+      },
+      {
+        "internalType": "address",
+        "name": "token1",
+        "type": "address",
+        "indexed": true
+      }
+    ],
+    "name": "CLPoolRemoved",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "internalType": "bytes32",
+        "name": "poolId",
+        "type": "bytes32",
+        "indexed": true
+      },
+      {
+        "internalType": "uint128",
+        "name": "liquidity",
+        "type": "uint128"
+      },
+      {
+        "internalType": "uint160",
+        "name": "sqrtPriceX96",
+        "type": "uint160"
+      }
+    ],
+    "name": "CLPoolUpdated",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "keeper",
+        "type": "address",
+        "indexed": true
+      },
+      {
+        "internalType": "bool",
+        "name": "status",
+        "type": "bool"
+      }
+    ],
+    "name": "KeeperUpdated",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "currentOwner",
+        "type": "address",
+        "indexed": true
+      },
+      {
+        "internalType": "address",
+        "name": "pendingOwner",
+        "type": "address",
+        "indexed": true
+      }
+    ],
+    "name": "OwnershipTransferStarted",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "oldOwner",
+        "type": "address",
+        "indexed": true
+      },
+      {
+        "internalType": "address",
+        "name": "newOwner",
+        "type": "address",
+        "indexed": true
+      }
+    ],
+    "name": "OwnershipTransferred",
+    "type": "event"
+  },
+  {
+    "inputs": [],
+    "name": "MAX_POOLS_PER_PAIR",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "acceptOwnership",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "BinPoolParams[]",
+        "name": "pools",
+        "type": "BinPoolParams[]"
+      }
+    ],
+    "name": "batchRegisterBinPools",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "CLPoolParams[]",
+        "name": "pools",
+        "type": "CLPoolParams[]"
+      }
+    ],
+    "name": "batchRegisterCLPools",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "BinPoolUpdate[]",
+        "name": "updates",
+        "type": "BinPoolUpdate[]"
+      }
+    ],
+    "name": "batchUpdateBinPools",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "CLPoolUpdate[]",
+        "name": "updates",
+        "type": "CLPoolUpdate[]"
+      }
+    ],
+    "name": "batchUpdateCLPools",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "bytes32",
+        "name": "",
+        "type": "bytes32"
+      }
+    ],
+    "name": "binPools",
+    "outputs": [
+      {
+        "internalType": "BinPoolInfo",
+        "name": "",
+        "type": "BinPoolInfo"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "bytes32",
+        "name": "",
+        "type": "bytes32"
+      }
+    ],
+    "name": "clPools",
+    "outputs": [
+      {
+        "internalType": "CLPoolInfo",
+        "name": "",
+        "type": "CLPoolInfo"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "tokenA",
+        "type": "address"
+      },
+      {
+        "internalType": "address",
+        "name": "tokenB",
+        "type": "address"
+      }
+    ],
+    "name": "getBestBinPool",
+    "outputs": [
+      {
+        "internalType": "bytes32",
+        "name": "bestPoolId",
+        "type": "bytes32"
+      },
+      {
+        "internalType": "BinPoolInfo",
+        "name": "bestInfo",
+        "type": "BinPoolInfo"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "tokenA",
+        "type": "address"
+      },
+      {
+        "internalType": "address",
+        "name": "tokenB",
+        "type": "address"
+      }
+    ],
+    "name": "getBestCLPool",
+    "outputs": [
+      {
+        "internalType": "bytes32",
+        "name": "bestPoolId",
+        "type": "bytes32"
+      },
+      {
+        "internalType": "CLPoolInfo",
+        "name": "bestInfo",
+        "type": "CLPoolInfo"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "token0",
+        "type": "address"
+      },
+      {
+        "internalType": "address",
+        "name": "token1",
+        "type": "address"
+      },
+      {
+        "internalType": "uint16",
+        "name": "binStep",
+        "type": "uint16"
+      },
+      {
+        "internalType": "address",
+        "name": "hooks",
+        "type": "address"
+      }
+    ],
+    "name": "getBinPoolId",
+    "outputs": [
+      {
+        "internalType": "bytes32",
+        "name": "",
+        "type": "bytes32"
+      }
+    ],
+    "stateMutability": "pure",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "tokenA",
+        "type": "address"
+      },
+      {
+        "internalType": "address",
+        "name": "tokenB",
+        "type": "address"
+      }
+    ],
+    "name": "getBinPoolsForPair",
+    "outputs": [
+      {
+        "internalType": "bytes32[]",
+        "name": "poolIds",
+        "type": "bytes32[]"
+      },
+      {
+        "internalType": "BinPoolInfo[]",
+        "name": "infos",
+        "type": "BinPoolInfo[]"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "token0",
+        "type": "address"
+      },
+      {
+        "internalType": "address",
+        "name": "token1",
+        "type": "address"
+      },
+      {
+        "internalType": "uint24",
+        "name": "fee",
+        "type": "uint24"
+      },
+      {
+        "internalType": "int24",
+        "name": "tickSpacing",
+        "type": "int24"
+      },
+      {
+        "internalType": "address",
+        "name": "hooks",
+        "type": "address"
+      }
+    ],
+    "name": "getCLPoolId",
+    "outputs": [
+      {
+        "internalType": "bytes32",
+        "name": "",
+        "type": "bytes32"
+      }
+    ],
+    "stateMutability": "pure",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "tokenA",
+        "type": "address"
+      },
+      {
+        "internalType": "address",
+        "name": "tokenB",
+        "type": "address"
+      }
+    ],
+    "name": "getCLPoolsForPair",
+    "outputs": [
+      {
+        "internalType": "bytes32[]",
+        "name": "poolIds",
+        "type": "bytes32[]"
+      },
+      {
+        "internalType": "CLPoolInfo[]",
+        "name": "infos",
+        "type": "CLPoolInfo[]"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "token0",
+        "type": "address"
+      },
+      {
+        "internalType": "address",
+        "name": "token1",
+        "type": "address"
+      }
+    ],
+    "name": "getPairKey",
+    "outputs": [
+      {
+        "internalType": "bytes32",
+        "name": "",
+        "type": "bytes32"
+      }
+    ],
+    "stateMutability": "pure",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "tokenA",
+        "type": "address"
+      },
+      {
+        "internalType": "address",
+        "name": "tokenB",
+        "type": "address"
+      }
+    ],
+    "name": "getPoolCount",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "clCount",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "binCount",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "tokenA",
+        "type": "address"
+      },
+      {
+        "internalType": "address",
+        "name": "tokenB",
+        "type": "address"
+      }
+    ],
+    "name": "hasPoolsForPair",
+    "outputs": [
+      {
+        "internalType": "bool",
+        "name": "hasCL",
+        "type": "bool"
+      },
+      {
+        "internalType": "bool",
+        "name": "hasBin",
+        "type": "bool"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "name": "keepers",
+    "outputs": [
+      {
+        "internalType": "bool",
+        "name": "",
+        "type": "bool"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "owner",
+    "outputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "pendingOwner",
+    "outputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "token0",
+        "type": "address"
+      },
+      {
+        "internalType": "address",
+        "name": "token1",
+        "type": "address"
+      },
+      {
+        "internalType": "uint16",
+        "name": "binStep",
+        "type": "uint16"
+      },
+      {
+        "internalType": "address",
+        "name": "hooks",
+        "type": "address"
+      },
+      {
+        "internalType": "uint128",
+        "name": "reserveX",
+        "type": "uint128"
+      },
+      {
+        "internalType": "uint128",
+        "name": "reserveY",
+        "type": "uint128"
+      },
+      {
+        "internalType": "uint24",
+        "name": "activeId",
+        "type": "uint24"
+      }
+    ],
+    "name": "registerBinPool",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "token0",
+        "type": "address"
+      },
+      {
+        "internalType": "address",
+        "name": "token1",
+        "type": "address"
+      },
+      {
+        "internalType": "uint24",
+        "name": "fee",
+        "type": "uint24"
+      },
+      {
+        "internalType": "int24",
+        "name": "tickSpacing",
+        "type": "int24"
+      },
+      {
+        "internalType": "address",
+        "name": "hooks",
+        "type": "address"
+      },
+      {
+        "internalType": "uint128",
+        "name": "liquidity",
+        "type": "uint128"
+      },
+      {
+        "internalType": "uint160",
+        "name": "sqrtPriceX96",
+        "type": "uint160"
+      }
+    ],
+    "name": "registerCLPool",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "bytes32",
+        "name": "poolId",
+        "type": "bytes32"
+      }
+    ],
+    "name": "removeBinPool",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "bytes32",
+        "name": "poolId",
+        "type": "bytes32"
+      }
+    ],
+    "name": "removeCLPool",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "keeper",
+        "type": "address"
+      },
+      {
+        "internalType": "bool",
+        "name": "status",
+        "type": "bool"
+      }
+    ],
+    "name": "setKeeper",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "newOwner",
+        "type": "address"
+      }
+    ],
+    "name": "transferOwnership",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "bytes32",
+        "name": "poolId",
+        "type": "bytes32"
+      },
+      {
+        "internalType": "uint128",
+        "name": "reserveX",
+        "type": "uint128"
+      },
+      {
+        "internalType": "uint128",
+        "name": "reserveY",
+        "type": "uint128"
+      },
+      {
+        "internalType": "uint24",
+        "name": "activeId",
+        "type": "uint24"
+      }
+    ],
+    "name": "updateBinPool",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "bytes32",
+        "name": "poolId",
+        "type": "bytes32"
+      },
+      {
+        "internalType": "uint128",
+        "name": "liquidity",
+        "type": "uint128"
+      },
+      {
+        "internalType": "uint160",
+        "name": "sqrtPriceX96",
+        "type": "uint160"
+      }
+    ],
+    "name": "updateCLPool",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  }
+]
