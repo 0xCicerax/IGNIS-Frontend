@@ -1,0 +1,395 @@
+[
+  {
+    "inputs": [
+      { "internalType": "address", "name": "_owner", "type": "address" },
+      { "internalType": "address", "name": "_guardian", "type": "address" },
+      { "internalType": "address", "name": "_keeper", "type": "address" }
+    ],
+    "stateMutability": "nonpayable",
+    "type": "constructor"
+  },
+  {
+    "inputs": [],
+    "name": "StaleSnapshot",
+    "type": "error"
+  },
+  {
+    "inputs": [],
+    "name": "TooManyConfigs",
+    "type": "error"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      { "indexed": false, "internalType": "uint256", "name": "oldValue", "type": "uint256" },
+      { "indexed": false, "internalType": "uint256", "name": "newValue", "type": "uint256" }
+    ],
+    "name": "MaxPriceDeviationUpdated",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      { "indexed": false, "internalType": "uint256", "name": "oldValue", "type": "uint256" },
+      { "indexed": false, "internalType": "uint256", "name": "newValue", "type": "uint256" }
+    ],
+    "name": "MaxSnapshotAgeUpdated",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      { "indexed": true, "internalType": "address", "name": "by", "type": "address" }
+    ],
+    "name": "Paused",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      { "indexed": true, "internalType": "address", "name": "vault", "type": "address" },
+      { "indexed": false, "internalType": "uint256", "name": "price", "type": "uint256" },
+      { "indexed": false, "internalType": "uint256", "name": "timestamp", "type": "uint256" }
+    ],
+    "name": "PriceSnapshotUpdated",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      { "indexed": false, "internalType": "uint256", "name": "oldValue", "type": "uint256" },
+      { "indexed": false, "internalType": "uint256", "name": "newValue", "type": "uint256" }
+    ],
+    "name": "RebalanceCooldownUpdated",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      { "indexed": true, "internalType": "bytes32", "name": "key", "type": "bytes32" },
+      { "indexed": false, "internalType": "string", "name": "reason", "type": "string" }
+    ],
+    "name": "RebalanceSkipped",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      { "indexed": true, "internalType": "bytes32", "name": "key", "type": "bytes32" },
+      { "indexed": false, "internalType": "address", "name": "vault", "type": "address" }
+    ],
+    "name": "RebalanceTriggered",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      { "indexed": true, "internalType": "address", "name": "by", "type": "address" }
+    ],
+    "name": "Unpaused",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      { "indexed": true, "internalType": "bytes32", "name": "key", "type": "bytes32" },
+      { "indexed": false, "internalType": "address", "name": "underlying", "type": "address" },
+      { "indexed": false, "internalType": "address", "name": "vault", "type": "address" },
+      { "indexed": false, "internalType": "address", "name": "gateway", "type": "address" }
+    ],
+    "name": "VaultConfigured",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      { "indexed": true, "internalType": "bytes32", "name": "key", "type": "bytes32" }
+    ],
+    "name": "VaultDisabled",
+    "type": "event"
+  },
+  {
+    "inputs": [],
+    "name": "MAX_CONFIGS",
+    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "address", "name": "vault", "type": "address" }
+    ],
+    "name": "checkPriceStatus",
+    "outputs": [
+      { "internalType": "bool", "name": "isSafe", "type": "bool" },
+      { "internalType": "uint256", "name": "currentPrice", "type": "uint256" },
+      { "internalType": "uint256", "name": "snapshotPrice", "type": "uint256" },
+      { "internalType": "uint256", "name": "snapshotAge", "type": "uint256" }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "checkUpkeep",
+    "outputs": [
+      { "internalType": "bool", "name": "upkeepNeeded", "type": "bool" },
+      { "internalType": "bytes", "name": "performData", "type": "bytes" }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "address", "name": "underlying", "type": "address" },
+      { "internalType": "address", "name": "vault", "type": "address" }
+    ],
+    "name": "checkVaultStatus",
+    "outputs": [
+      { "internalType": "bool", "name": "needsWork", "type": "bool" },
+      { "internalType": "uint256", "name": "deviationU", "type": "uint256" },
+      { "internalType": "uint256", "name": "deviationS", "type": "uint256" }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+    "name": "configKeys",
+    "outputs": [{ "internalType": "bytes32", "name": "", "type": "bytes32" }],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "address", "name": "underlying", "type": "address" },
+      { "internalType": "address", "name": "vault", "type": "address" },
+      { "internalType": "address", "name": "gateway", "type": "address" },
+      { "internalType": "uint256", "name": "rebalanceThresholdBps", "type": "uint256" },
+      { "internalType": "uint256", "name": "maxSlippageBps", "type": "uint256" }
+    ],
+    "name": "configureVault",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "address", "name": "underlying", "type": "address" },
+      { "internalType": "address", "name": "vault", "type": "address" }
+    ],
+    "name": "disableVault",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "address", "name": "underlying", "type": "address" },
+      { "internalType": "address", "name": "vault", "type": "address" }
+    ],
+    "name": "forceRebalance",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [{ "internalType": "bytes32", "name": "key", "type": "bytes32" }],
+    "name": "getConfig",
+    "outputs": [
+      {
+        "components": [
+          { "internalType": "address", "name": "underlying", "type": "address" },
+          { "internalType": "address", "name": "vault", "type": "address" },
+          { "internalType": "address", "name": "gateway", "type": "address" },
+          { "internalType": "uint256", "name": "rebalanceThresholdBps", "type": "uint256" },
+          { "internalType": "uint256", "name": "maxSlippageBps", "type": "uint256" },
+          { "internalType": "bool", "name": "enabled", "type": "bool" }
+        ],
+        "internalType": "struct GatewayKeeper.VaultConfig",
+        "name": "",
+        "type": "tuple"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [{ "internalType": "uint256", "name": "index", "type": "uint256" }],
+    "name": "getConfigByIndex",
+    "outputs": [
+      {
+        "components": [
+          { "internalType": "address", "name": "underlying", "type": "address" },
+          { "internalType": "address", "name": "vault", "type": "address" },
+          { "internalType": "address", "name": "gateway", "type": "address" },
+          { "internalType": "uint256", "name": "rebalanceThresholdBps", "type": "uint256" },
+          { "internalType": "uint256", "name": "maxSlippageBps", "type": "uint256" },
+          { "internalType": "bool", "name": "enabled", "type": "bool" }
+        ],
+        "internalType": "struct GatewayKeeper.VaultConfig",
+        "name": "",
+        "type": "tuple"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "getConfigCount",
+    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "guardian",
+    "outputs": [{ "internalType": "address", "name": "", "type": "address" }],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "keeper",
+    "outputs": [{ "internalType": "address", "name": "", "type": "address" }],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [{ "internalType": "bytes32", "name": "", "type": "bytes32" }],
+    "name": "lastRebalanceTime",
+    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "maxPriceDeviationBps",
+    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "maxSnapshotAge",
+    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "owner",
+    "outputs": [{ "internalType": "address", "name": "", "type": "address" }],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "pause",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "paused",
+    "outputs": [{ "internalType": "bool", "name": "", "type": "bool" }],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [{ "internalType": "bytes", "name": "performData", "type": "bytes" }],
+    "name": "performUpkeep",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [{ "internalType": "address", "name": "", "type": "address" }],
+    "name": "priceSnapshots",
+    "outputs": [
+      { "internalType": "uint256", "name": "price", "type": "uint256" },
+      { "internalType": "uint256", "name": "timestamp", "type": "uint256" }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "rebalanceCooldown",
+    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [{ "internalType": "address", "name": "newGuardian", "type": "address" }],
+    "name": "setGuardian",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [{ "internalType": "address", "name": "newKeeper", "type": "address" }],
+    "name": "setKeeper",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [{ "internalType": "uint256", "name": "bps", "type": "uint256" }],
+    "name": "setMaxPriceDeviation",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [{ "internalType": "uint256", "name": "age", "type": "uint256" }],
+    "name": "setMaxSnapshotAge",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [{ "internalType": "uint256", "name": "cooldown", "type": "uint256" }],
+    "name": "setRebalanceCooldown",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [{ "internalType": "address", "name": "newOwner", "type": "address" }],
+    "name": "transferOwnership",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "unpause",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [{ "internalType": "address", "name": "vault", "type": "address" }],
+    "name": "updatePriceSnapshot",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [{ "internalType": "bytes32", "name": "", "type": "bytes32" }],
+    "name": "vaultConfigs",
+    "outputs": [
+      { "internalType": "address", "name": "underlying", "type": "address" },
+      { "internalType": "address", "name": "vault", "type": "address" },
+      { "internalType": "address", "name": "gateway", "type": "address" },
+      { "internalType": "uint256", "name": "rebalanceThresholdBps", "type": "uint256" },
+      { "internalType": "uint256", "name": "maxSlippageBps", "type": "uint256" },
+      { "internalType": "bool", "name": "enabled", "type": "bool" }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  }
+]

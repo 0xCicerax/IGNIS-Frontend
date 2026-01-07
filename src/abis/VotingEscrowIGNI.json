@@ -1,0 +1,104 @@
+[
+  {
+    "type": "function",
+    "name": "split",
+    "inputs": [
+      {"name": "tokenId", "type": "uint256"},
+      {"name": "amount", "type": "uint256"}
+    ],
+    "outputs": [{"name": "newTokenId", "type": "uint256"}],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "type": "function",
+    "name": "merge",
+    "inputs": [
+      {"name": "fromId", "type": "uint256"},
+      {"name": "toId", "type": "uint256"}
+    ],
+    "outputs": [],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "type": "function",
+    "name": "locked",
+    "inputs": [{"name": "tokenId", "type": "uint256"}],
+    "outputs": [
+      {
+        "name": "",
+        "type": "tuple",
+        "components": [
+          {"name": "amount", "type": "int128"},
+          {"name": "end", "type": "uint256"},
+          {"name": "isPermanent", "type": "bool"}
+        ]
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "balanceOfNFT",
+    "inputs": [{"name": "tokenId", "type": "uint256"}],
+    "outputs": [{"name": "", "type": "uint256"}],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "voted",
+    "inputs": [{"name": "tokenId", "type": "uint256"}],
+    "outputs": [{"name": "", "type": "bool"}],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "isLockActive",
+    "inputs": [{"name": "tokenId", "type": "uint256"}],
+    "outputs": [{"name": "", "type": "bool"}],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "ownerOf",
+    "inputs": [{"name": "tokenId", "type": "uint256"}],
+    "outputs": [{"name": "", "type": "address"}],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "tokenOfOwnerByIndex",
+    "inputs": [
+      {"name": "owner", "type": "address"},
+      {"name": "index", "type": "uint256"}
+    ],
+    "outputs": [{"name": "", "type": "uint256"}],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "balanceOf",
+    "inputs": [{"name": "owner", "type": "address"}],
+    "outputs": [{"name": "", "type": "uint256"}],
+    "stateMutability": "view"
+  },
+  {
+    "type": "event",
+    "name": "LockCreated",
+    "inputs": [
+      {"indexed": true, "name": "tokenId", "type": "uint256"},
+      {"indexed": true, "name": "owner", "type": "address"},
+      {"indexed": false, "name": "amount", "type": "uint256"},
+      {"indexed": false, "name": "end", "type": "uint256"},
+      {"indexed": false, "name": "permanent", "type": "bool"}
+    ]
+  },
+  {
+    "type": "event",
+    "name": "LockIncreased",
+    "inputs": [
+      {"indexed": true, "name": "tokenId", "type": "uint256"},
+      {"indexed": false, "name": "amount", "type": "uint256"},
+      {"indexed": false, "name": "newTotal", "type": "uint256"}
+    ]
+  }
+]

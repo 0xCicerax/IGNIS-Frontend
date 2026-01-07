@@ -1,0 +1,469 @@
+{
+  "abi": [
+    {
+      "inputs": [
+        { "internalType": "address", "name": "_clPoolManager", "type": "address" },
+        { "internalType": "address", "name": "_binPoolManager", "type": "address" },
+        { "internalType": "address", "name": "_poolRegistry", "type": "address" }
+      ],
+      "stateMutability": "nonpayable",
+      "type": "constructor"
+    },
+    {
+      "inputs": [],
+      "name": "DEFAULT_DEPTH_ITEMS",
+      "outputs": [{ "internalType": "uint16", "name": "", "type": "uint16" }],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "MAX_BATCH_SIZE",
+      "outputs": [{ "internalType": "uint16", "name": "", "type": "uint16" }],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "MAX_DEPTH_ITEMS",
+      "outputs": [{ "internalType": "uint16", "name": "", "type": "uint16" }],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "MOCK_MODE",
+      "outputs": [{ "internalType": "bool", "name": "", "type": "bool" }],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "clPoolManager",
+      "outputs": [{ "internalType": "address", "name": "", "type": "address" }],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "binPoolManager",
+      "outputs": [{ "internalType": "address", "name": "", "type": "address" }],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "poolRegistry",
+      "outputs": [{ "internalType": "address", "name": "", "type": "address" }],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "isMockMode",
+      "outputs": [{ "internalType": "bool", "name": "", "type": "bool" }],
+      "stateMutability": "pure",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "maxDepthItems",
+      "outputs": [{ "internalType": "uint16", "name": "", "type": "uint16" }],
+      "stateMutability": "pure",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "maxBatchSize",
+      "outputs": [{ "internalType": "uint16", "name": "", "type": "uint16" }],
+      "stateMutability": "pure",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        { "internalType": "bytes32[]", "name": "clPoolIds", "type": "bytes32[]" },
+        { "internalType": "bytes32[]", "name": "binPoolIds", "type": "bytes32[]" },
+        { "internalType": "uint16", "name": "numItemsPerSide", "type": "uint16" }
+      ],
+      "name": "getBatchDepth",
+      "outputs": [
+        {
+          "components": [
+            {
+              "components": [
+                { "internalType": "bytes32", "name": "poolId", "type": "bytes32" },
+                { "internalType": "int24", "name": "currentTick", "type": "int24" },
+                { "internalType": "uint128", "name": "liquidity", "type": "uint128" },
+                { "internalType": "uint256", "name": "currentPrice", "type": "uint256" },
+                {
+                  "components": [
+                    { "internalType": "int24", "name": "tick", "type": "int24" },
+                    { "internalType": "int128", "name": "liquidityNet", "type": "int128" },
+                    { "internalType": "uint128", "name": "liquidityGross", "type": "uint128" },
+                    { "internalType": "uint256", "name": "price", "type": "uint256" }
+                  ],
+                  "internalType": "struct PoolDepthReader.TickData[]",
+                  "name": "asks",
+                  "type": "tuple[]"
+                },
+                {
+                  "components": [
+                    { "internalType": "int24", "name": "tick", "type": "int24" },
+                    { "internalType": "int128", "name": "liquidityNet", "type": "int128" },
+                    { "internalType": "uint128", "name": "liquidityGross", "type": "uint128" },
+                    { "internalType": "uint256", "name": "price", "type": "uint256" }
+                  ],
+                  "internalType": "struct PoolDepthReader.TickData[]",
+                  "name": "bids",
+                  "type": "tuple[]"
+                }
+              ],
+              "internalType": "struct PoolDepthReader.CLDepthSnapshot[]",
+              "name": "clSnapshots",
+              "type": "tuple[]"
+            },
+            {
+              "components": [
+                { "internalType": "bytes32", "name": "poolId", "type": "bytes32" },
+                { "internalType": "uint24", "name": "activeId", "type": "uint24" },
+                { "internalType": "uint16", "name": "binStep", "type": "uint16" },
+                { "internalType": "uint256", "name": "currentPrice", "type": "uint256" },
+                {
+                  "components": [
+                    { "internalType": "uint24", "name": "binId", "type": "uint24" },
+                    { "internalType": "uint128", "name": "reserveX", "type": "uint128" },
+                    { "internalType": "uint128", "name": "reserveY", "type": "uint128" },
+                    { "internalType": "uint256", "name": "price", "type": "uint256" },
+                    { "internalType": "uint256", "name": "totalLiquidity", "type": "uint256" }
+                  ],
+                  "internalType": "struct PoolDepthReader.BinData[]",
+                  "name": "asks",
+                  "type": "tuple[]"
+                },
+                {
+                  "components": [
+                    { "internalType": "uint24", "name": "binId", "type": "uint24" },
+                    { "internalType": "uint128", "name": "reserveX", "type": "uint128" },
+                    { "internalType": "uint128", "name": "reserveY", "type": "uint128" },
+                    { "internalType": "uint256", "name": "price", "type": "uint256" },
+                    { "internalType": "uint256", "name": "totalLiquidity", "type": "uint256" }
+                  ],
+                  "internalType": "struct PoolDepthReader.BinData[]",
+                  "name": "bids",
+                  "type": "tuple[]"
+                }
+              ],
+              "internalType": "struct PoolDepthReader.BinDepthSnapshot[]",
+              "name": "binSnapshots",
+              "type": "tuple[]"
+            },
+            { "internalType": "uint256", "name": "timestamp", "type": "uint256" },
+            { "internalType": "uint256", "name": "blockNumber", "type": "uint256" }
+          ],
+          "internalType": "struct PoolDepthReader.BatchDepthResponse",
+          "name": "response",
+          "type": "tuple"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        { "internalType": "bytes32[]", "name": "clPoolIds", "type": "bytes32[]" },
+        { "internalType": "bytes32[]", "name": "binPoolIds", "type": "bytes32[]" },
+        { "internalType": "uint16", "name": "numLevels", "type": "uint16" }
+      ],
+      "name": "getBatchAggregatedDepth",
+      "outputs": [
+        {
+          "components": [
+            { "internalType": "uint256", "name": "currentPrice", "type": "uint256" },
+            { "internalType": "uint256", "name": "spread", "type": "uint256" },
+            {
+              "components": [
+                { "internalType": "uint256", "name": "price", "type": "uint256" },
+                { "internalType": "uint256", "name": "liquidity", "type": "uint256" },
+                { "internalType": "uint256", "name": "cumulative", "type": "uint256" }
+              ],
+              "internalType": "struct PoolDepthReader.PriceLevel[]",
+              "name": "asks",
+              "type": "tuple[]"
+            },
+            {
+              "components": [
+                { "internalType": "uint256", "name": "price", "type": "uint256" },
+                { "internalType": "uint256", "name": "liquidity", "type": "uint256" },
+                { "internalType": "uint256", "name": "cumulative", "type": "uint256" }
+              ],
+              "internalType": "struct PoolDepthReader.PriceLevel[]",
+              "name": "bids",
+              "type": "tuple[]"
+            }
+          ],
+          "internalType": "struct PoolDepthReader.AggregatedDepth",
+          "name": "",
+          "type": "tuple"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        { "internalType": "bytes32", "name": "poolId", "type": "bytes32" },
+        { "internalType": "uint16", "name": "numItemsPerSide", "type": "uint16" }
+      ],
+      "name": "getCLPoolDepth",
+      "outputs": [
+        {
+          "components": [
+            { "internalType": "bytes32", "name": "poolId", "type": "bytes32" },
+            { "internalType": "int24", "name": "currentTick", "type": "int24" },
+            { "internalType": "uint128", "name": "liquidity", "type": "uint128" },
+            { "internalType": "uint256", "name": "currentPrice", "type": "uint256" },
+            {
+              "components": [
+                { "internalType": "int24", "name": "tick", "type": "int24" },
+                { "internalType": "int128", "name": "liquidityNet", "type": "int128" },
+                { "internalType": "uint128", "name": "liquidityGross", "type": "uint128" },
+                { "internalType": "uint256", "name": "price", "type": "uint256" }
+              ],
+              "internalType": "struct PoolDepthReader.TickData[]",
+              "name": "asks",
+              "type": "tuple[]"
+            },
+            {
+              "components": [
+                { "internalType": "int24", "name": "tick", "type": "int24" },
+                { "internalType": "int128", "name": "liquidityNet", "type": "int128" },
+                { "internalType": "uint128", "name": "liquidityGross", "type": "uint128" },
+                { "internalType": "uint256", "name": "price", "type": "uint256" }
+              ],
+              "internalType": "struct PoolDepthReader.TickData[]",
+              "name": "bids",
+              "type": "tuple[]"
+            }
+          ],
+          "internalType": "struct PoolDepthReader.CLDepthSnapshot",
+          "name": "",
+          "type": "tuple"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        { "internalType": "address", "name": "token0", "type": "address" },
+        { "internalType": "address", "name": "token1", "type": "address" },
+        { "internalType": "uint24", "name": "fee", "type": "uint24" },
+        { "internalType": "uint16", "name": "numItemsPerSide", "type": "uint16" }
+      ],
+      "name": "getCLPoolDepthByPair",
+      "outputs": [
+        {
+          "components": [
+            { "internalType": "bytes32", "name": "poolId", "type": "bytes32" },
+            { "internalType": "int24", "name": "currentTick", "type": "int24" },
+            { "internalType": "uint128", "name": "liquidity", "type": "uint128" },
+            { "internalType": "uint256", "name": "currentPrice", "type": "uint256" },
+            {
+              "components": [
+                { "internalType": "int24", "name": "tick", "type": "int24" },
+                { "internalType": "int128", "name": "liquidityNet", "type": "int128" },
+                { "internalType": "uint128", "name": "liquidityGross", "type": "uint128" },
+                { "internalType": "uint256", "name": "price", "type": "uint256" }
+              ],
+              "internalType": "struct PoolDepthReader.TickData[]",
+              "name": "asks",
+              "type": "tuple[]"
+            },
+            {
+              "components": [
+                { "internalType": "int24", "name": "tick", "type": "int24" },
+                { "internalType": "int128", "name": "liquidityNet", "type": "int128" },
+                { "internalType": "uint128", "name": "liquidityGross", "type": "uint128" },
+                { "internalType": "uint256", "name": "price", "type": "uint256" }
+              ],
+              "internalType": "struct PoolDepthReader.TickData[]",
+              "name": "bids",
+              "type": "tuple[]"
+            }
+          ],
+          "internalType": "struct PoolDepthReader.CLDepthSnapshot",
+          "name": "",
+          "type": "tuple"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        { "internalType": "bytes32", "name": "poolId", "type": "bytes32" },
+        { "internalType": "uint16", "name": "numItemsPerSide", "type": "uint16" }
+      ],
+      "name": "getBinPoolDepth",
+      "outputs": [
+        {
+          "components": [
+            { "internalType": "bytes32", "name": "poolId", "type": "bytes32" },
+            { "internalType": "uint24", "name": "activeId", "type": "uint24" },
+            { "internalType": "uint16", "name": "binStep", "type": "uint16" },
+            { "internalType": "uint256", "name": "currentPrice", "type": "uint256" },
+            {
+              "components": [
+                { "internalType": "uint24", "name": "binId", "type": "uint24" },
+                { "internalType": "uint128", "name": "reserveX", "type": "uint128" },
+                { "internalType": "uint128", "name": "reserveY", "type": "uint128" },
+                { "internalType": "uint256", "name": "price", "type": "uint256" },
+                { "internalType": "uint256", "name": "totalLiquidity", "type": "uint256" }
+              ],
+              "internalType": "struct PoolDepthReader.BinData[]",
+              "name": "asks",
+              "type": "tuple[]"
+            },
+            {
+              "components": [
+                { "internalType": "uint24", "name": "binId", "type": "uint24" },
+                { "internalType": "uint128", "name": "reserveX", "type": "uint128" },
+                { "internalType": "uint128", "name": "reserveY", "type": "uint128" },
+                { "internalType": "uint256", "name": "price", "type": "uint256" },
+                { "internalType": "uint256", "name": "totalLiquidity", "type": "uint256" }
+              ],
+              "internalType": "struct PoolDepthReader.BinData[]",
+              "name": "bids",
+              "type": "tuple[]"
+            }
+          ],
+          "internalType": "struct PoolDepthReader.BinDepthSnapshot",
+          "name": "",
+          "type": "tuple"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        { "internalType": "address", "name": "tokenX", "type": "address" },
+        { "internalType": "address", "name": "tokenY", "type": "address" },
+        { "internalType": "uint16", "name": "binStep", "type": "uint16" },
+        { "internalType": "uint16", "name": "numItemsPerSide", "type": "uint16" }
+      ],
+      "name": "getBinPoolDepthByPair",
+      "outputs": [
+        {
+          "components": [
+            { "internalType": "bytes32", "name": "poolId", "type": "bytes32" },
+            { "internalType": "uint24", "name": "activeId", "type": "uint24" },
+            { "internalType": "uint16", "name": "binStep", "type": "uint16" },
+            { "internalType": "uint256", "name": "currentPrice", "type": "uint256" },
+            {
+              "components": [
+                { "internalType": "uint24", "name": "binId", "type": "uint24" },
+                { "internalType": "uint128", "name": "reserveX", "type": "uint128" },
+                { "internalType": "uint128", "name": "reserveY", "type": "uint128" },
+                { "internalType": "uint256", "name": "price", "type": "uint256" },
+                { "internalType": "uint256", "name": "totalLiquidity", "type": "uint256" }
+              ],
+              "internalType": "struct PoolDepthReader.BinData[]",
+              "name": "asks",
+              "type": "tuple[]"
+            },
+            {
+              "components": [
+                { "internalType": "uint24", "name": "binId", "type": "uint24" },
+                { "internalType": "uint128", "name": "reserveX", "type": "uint128" },
+                { "internalType": "uint128", "name": "reserveY", "type": "uint128" },
+                { "internalType": "uint256", "name": "price", "type": "uint256" },
+                { "internalType": "uint256", "name": "totalLiquidity", "type": "uint256" }
+              ],
+              "internalType": "struct PoolDepthReader.BinData[]",
+              "name": "bids",
+              "type": "tuple[]"
+            }
+          ],
+          "internalType": "struct PoolDepthReader.BinDepthSnapshot",
+          "name": "",
+          "type": "tuple"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        { "internalType": "bytes32[]", "name": "clPoolIds", "type": "bytes32[]" },
+        { "internalType": "bytes32[]", "name": "binPoolIds", "type": "bytes32[]" },
+        { "internalType": "uint16", "name": "numLevels", "type": "uint16" }
+      ],
+      "name": "getAggregatedDepth",
+      "outputs": [
+        {
+          "components": [
+            { "internalType": "uint256", "name": "currentPrice", "type": "uint256" },
+            { "internalType": "uint256", "name": "spread", "type": "uint256" },
+            {
+              "components": [
+                { "internalType": "uint256", "name": "price", "type": "uint256" },
+                { "internalType": "uint256", "name": "liquidity", "type": "uint256" },
+                { "internalType": "uint256", "name": "cumulative", "type": "uint256" }
+              ],
+              "internalType": "struct PoolDepthReader.PriceLevel[]",
+              "name": "asks",
+              "type": "tuple[]"
+            },
+            {
+              "components": [
+                { "internalType": "uint256", "name": "price", "type": "uint256" },
+                { "internalType": "uint256", "name": "liquidity", "type": "uint256" },
+                { "internalType": "uint256", "name": "cumulative", "type": "uint256" }
+              ],
+              "internalType": "struct PoolDepthReader.PriceLevel[]",
+              "name": "bids",
+              "type": "tuple[]"
+            }
+          ],
+          "internalType": "struct PoolDepthReader.AggregatedDepth",
+          "name": "",
+          "type": "tuple"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        { "internalType": "uint16", "name": "numPools", "type": "uint16" },
+        { "internalType": "uint16", "name": "refreshIntervalSeconds", "type": "uint16" }
+      ],
+      "name": "estimateRpcSavings",
+      "outputs": [
+        { "internalType": "uint256", "name": "withoutBatch", "type": "uint256" },
+        { "internalType": "uint256", "name": "withBatch", "type": "uint256" },
+        { "internalType": "uint256", "name": "savingsPercent", "type": "uint256" }
+      ],
+      "stateMutability": "pure",
+      "type": "function"
+    },
+    {
+      "inputs": [{ "internalType": "int24", "name": "tick", "type": "int24" }],
+      "name": "testTickToPrice",
+      "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+      "stateMutability": "pure",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        { "internalType": "uint24", "name": "binId", "type": "uint24" },
+        { "internalType": "uint16", "name": "binStep", "type": "uint16" }
+      ],
+      "name": "testBinIdToPrice",
+      "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+      "stateMutability": "pure",
+      "type": "function"
+    }
+  ]
+}
