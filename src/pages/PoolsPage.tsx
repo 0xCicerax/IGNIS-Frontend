@@ -85,7 +85,7 @@ export const PoolsPage = ({ isConnected, onConnect }) => {
     };
 
     const handlePoolClick = (pool) => {
-        navigate(`/pool/${pool.id}`);
+        navigate(`/app/pool/${pool.id}`);
     };
 
     const handleAddLiquidity = (pool) => {
@@ -256,7 +256,8 @@ export const PoolsPage = ({ isConnected, onConnect }) => {
                                         <PoolTableRow 
                                             key={pool.id} 
                                             pool={pool} 
-                                            onClick={() => handlePoolClick(pool)} 
+                                            onClick={() => handlePoolClick(pool)}
+                                            onAddLiquidity={() => handleAddLiquidity(pool)}
                                         />
                                     ))
                                 )}
@@ -303,7 +304,7 @@ export const PoolsPage = ({ isConnected, onConnect }) => {
 // SUB-COMPONENTS
 // ─────────────────────────────────────────────────────────────────────────────
 
-const PoolTableRow = memo(({ pool, onClick }) => (
+const PoolTableRow = memo(({ pool, onClick, onAddLiquidity }) => (
     <TableRow onClick={onClick}>
         <TableCell>
             <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
@@ -329,7 +330,7 @@ const PoolTableRow = memo(({ pool, onClick }) => (
         <TableCell align="right">
             <Button 
                 variant="secondary" 
-                onClick={e => { e.stopPropagation(); onClick(); }}
+                onClick={e => { e.stopPropagation(); onAddLiquidity(); }}
             >
                 Add
             </Button>

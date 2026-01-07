@@ -1,7 +1,8 @@
 /**
  * Format a number as currency
  */
-export function formatCurrency(value: number, decimals: number = 2): string {
+export function formatCurrency(value: number | undefined | null, decimals: number = 2): string {
+    if (value == null || isNaN(value)) return '$0.00';
     if (value >= 1e9) {
         return `$${(value / 1e9).toFixed(2)}B`;
     }
@@ -17,7 +18,8 @@ export function formatCurrency(value: number, decimals: number = 2): string {
 /**
  * Format a number with K/M/B suffix
  */
-export function formatNumber(value: number, decimals: number = 2): string {
+export function formatNumber(value: number | undefined | null, decimals: number = 2): string {
+    if (value == null || isNaN(value)) return '0';
     if (value >= 1e9) {
         return `${(value / 1e9).toFixed(decimals)}B`;
     }
@@ -33,7 +35,8 @@ export function formatNumber(value: number, decimals: number = 2): string {
 /**
  * Format a percentage
  */
-export function formatPercent(value: number, decimals: number = 2): string {
+export function formatPercent(value: number | undefined | null, decimals: number = 2): string {
+    if (value == null || isNaN(value)) return '0.00%';
     return `${value.toFixed(decimals)}%`;
 }
 

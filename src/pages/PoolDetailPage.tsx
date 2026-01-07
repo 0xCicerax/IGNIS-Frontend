@@ -2,7 +2,7 @@ import { useState, useMemo } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { POOLS, TOKENS } from '../data';
 import type { Token, Pool } from '../types';
-import { TokenIcon } from '../components/ui';
+import { TokenIcon, DualTokenIcon } from '../components/ui';
 import { AddLiquidityModal } from '../components/modals';
 import { formatCurrency, formatNumber } from '../utils';
 
@@ -104,39 +104,6 @@ const generateTopLPs = (tvl: number) => {
 // ─────────────────────────────────────────────────────────────────────────────
 // SUBCOMPONENTS
 // ─────────────────────────────────────────────────────────────────────────────
-const DualTokenIcon = ({ token0, token1, size = 40 }: { token0: Token; token1: Token; size?: number }) => (
-    <div style={{ display: 'flex', alignItems: 'center' }}>
-        <div style={{ 
-            width: size, 
-            height: size, 
-            borderRadius: '50%', 
-            background: token0.color || '#627EEA',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            fontWeight: 700,
-            fontSize: size * 0.4,
-            border: '2px solid #0A0A0B',
-        }}>
-            {token0.icon || token0.symbol[0]}
-        </div>
-        <div style={{ 
-            width: size, 
-            height: size, 
-            borderRadius: '50%', 
-            background: token1.color || '#2775CA',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            fontWeight: 700,
-            fontSize: size * 0.4,
-            marginLeft: -size * 0.3,
-            border: '2px solid #0A0A0B',
-        }}>
-            {token1.icon || token1.symbol[0]}
-        </div>
-    </div>
-);
 
 const StatCard = ({ label, value, subValue, change }: { 
     label: string; 
@@ -280,7 +247,7 @@ export const PoolDetailPage: React.FC<PoolDetailPageProps> = ({ isConnected, onC
                 <div className="pool-detail__not-found">
                     <h2>Pool Not Found</h2>
                     <p>The pool you're looking for doesn't exist.</p>
-                    <button onClick={() => navigate('/pools')} className="pool-detail__back-btn">
+                    <button onClick={() => navigate('/app/pools')} className="pool-detail__back-btn">
                         ← Back to Pools
                     </button>
                 </div>
@@ -300,7 +267,7 @@ export const PoolDetailPage: React.FC<PoolDetailPageProps> = ({ isConnected, onC
         <div className="pool-detail">
             {/* Header */}
             <div className="pool-detail__header">
-                <button onClick={() => navigate('/pools')} className="pool-detail__back-btn">
+                <button onClick={() => navigate('/app/pools')} className="pool-detail__back-btn">
                     ← Back
                 </button>
                 
@@ -692,6 +659,42 @@ export const PoolDetailPage: React.FC<PoolDetailPageProps> = ({ isConnected, onC
                         <div className="pool-detail__info-row">
                             <span>Created</span>
                             <span>Dec 15, 2024</span>
+                        </div>
+                        
+                        {/* Mini Order Book */}
+                        <div className="pool-detail__mini-orderbook">
+                            <div className="pool-detail__mini-ob-header">
+                                <span className="pool-detail__mini-ob-title">Order Book</span>
+                                <span className="pool-detail__mini-ob-spread">0.05% spread</span>
+                            </div>
+                            <div className="pool-detail__mini-ob-table">
+                                {/* Asks (top 5) */}
+                                {[5,4,3,2,1].map(i => (
+                                    <div key={`ask-${i}`} className="pool-detail__mini-ob-row pool-detail__mini-ob-row--ask">
+                                        <span className="pool-detail__mini-ob-price">
+                                            {(pool.token0.price * (1 + i * 0.001)).toFixed(2)}
+                                        </span>
+                                        <span className="pool-detail__mini-ob-size">
+                                            {(Math.random() * 10 + 1).toFixed(2)}
+                                        </span>
+                                    </div>
+                                ))}
+                                {/* Spread */}
+                                <div className="pool-detail__mini-ob-row pool-detail__mini-ob-row--spread">
+                                    {pool.token0.price.toFixed(2)} {pool.token1.symbol}
+                                </div>
+                                {/* Bids (top 5) */}
+                                {[1,2,3,4,5].map(i => (
+                                    <div key={`bid-${i}`} className="pool-detail__mini-ob-row pool-detail__mini-ob-row--bid">
+                                        <span className="pool-detail__mini-ob-price">
+                                            {(pool.token0.price * (1 - i * 0.001)).toFixed(2)}
+                                        </span>
+                                        <span className="pool-detail__mini-ob-size">
+                                            {(Math.random() * 10 + 1).toFixed(2)}
+                                        </span>
+                                    </div>
+                                ))}
+                            </div>
                         </div>
                     </div>
                 </div>

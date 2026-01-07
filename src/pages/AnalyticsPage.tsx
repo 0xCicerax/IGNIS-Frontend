@@ -1,6 +1,6 @@
 import { useState, useMemo, useEffect } from 'react';
 import { formatCurrency, formatNumber } from '../utils';
-import { Skeleton, SkeletonStats } from '../components/ui';
+import { Skeleton, SkeletonStats, TokenIcon } from '../components/ui';
 import {
     PageContainer,
     PageHeader,
@@ -28,10 +28,21 @@ import {
 // ─────────────────────────────────────────────────────────────────────────────
 const LOADING_DELAY = 1200;
 
-const TOKEN_COLORS = {
-    ETH: '#627EEA', WETH: '#627EEA', USDC: '#2775CA', USDT: '#26A17B',
-    DAI: '#F5AC37', wstETH: '#00A3FF', cbETH: '#0052FF', rETH: '#CC9B7A', IGNIS: '#F5B041',
+const TOKEN_DATA = {
+    ETH: { symbol: 'ETH', icon: 'Ξ', color: '#627EEA' },
+    WETH: { symbol: 'WETH', icon: 'Ξ', color: '#627EEA' },
+    USDC: { symbol: 'USDC', icon: '$', color: '#2775CA' },
+    USDT: { symbol: 'USDT', icon: '₮', color: '#26A17B' },
+    DAI: { symbol: 'DAI', icon: '◈', color: '#F5AC37' },
+    wstETH: { symbol: 'wstETH', icon: 'W', color: '#00A3FF' },
+    stETH: { symbol: 'stETH', icon: 'L', color: '#00A3FF' },
+    cbETH: { symbol: 'cbETH', icon: 'C', color: '#0052FF' },
+    rETH: { symbol: 'rETH', icon: 'R', color: '#CC9B7A' },
+    IGNIS: { symbol: 'IGNIS', icon: '🔥', color: '#F5B041' },
+    WBTC: { symbol: 'WBTC', icon: '₿', color: '#F7931A' },
 };
+
+const getTokenData = (symbol: string) => TOKEN_DATA[symbol] || { symbol, icon: symbol.charAt(0), color: '#7A7A7A' };
 
 // ─────────────────────────────────────────────────────────────────────────────
 // DATA GENERATORS
@@ -288,24 +299,9 @@ const MEVChart = ({ data, height = 200 }) => {
 
 const TokenPairIcon = ({ token0, token1, size = 32 }) => (
     <div style={{ display: 'flex', alignItems: 'center' }}>
-        <div style={{ 
-            width: size, height: size, borderRadius: '50%', 
-            background: TOKEN_COLORS[token0] || '#7A7A7A',
-            display: 'flex', alignItems: 'center', justifyContent: 'center',
-            fontSize: size * 0.4, fontWeight: 700, color: '#FFF',
-            border: '2px solid #141416',
-        }}>
-            {token0.slice(0, 2)}
-        </div>
-        <div style={{ 
-            width: size, height: size, borderRadius: '50%', 
-            background: TOKEN_COLORS[token1] || '#7A7A7A',
-            display: 'flex', alignItems: 'center', justifyContent: 'center',
-            fontSize: size * 0.4, fontWeight: 700, color: '#FFF',
-            marginLeft: -size * 0.3,
-            border: '2px solid #141416',
-        }}>
-            {token1.slice(0, 2)}
+        <TokenIcon token={getTokenData(token0)} size={size} />
+        <div style={{ marginLeft: -size * 0.25, zIndex: 1 }}>
+            <TokenIcon token={getTokenData(token1)} size={size} />
         </div>
     </div>
 );

@@ -258,7 +258,6 @@ const LandingHeader: React.FC = () => {
                 </nav>
                 
                 <div className="landing-header__cta">
-                    <button className="landing-btn landing-btn--secondary">Connect Wallet</button>
                     <button className="landing-btn landing-btn--primary" onClick={() => navigate('/app/swap')}>Launch App →</button>
                 </div>
                 

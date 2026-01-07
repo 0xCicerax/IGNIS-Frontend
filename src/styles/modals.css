@@ -1738,6 +1738,50 @@
     font-family: 'JetBrains Mono', monospace;
 }
 
+/* Slider input styling */
+.lock-modal__input-section input[type="range"],
+.withdraw-modal input[type="range"] {
+    width: 100%;
+    height: 6px;
+    border-radius: 3px;
+    background: rgba(255, 255, 255, 0.1);
+    appearance: none;
+    -webkit-appearance: none;
+    cursor: pointer;
+    margin: 0.5rem 0;
+}
+
+.lock-modal__input-section input[type="range"]::-webkit-slider-thumb,
+.withdraw-modal input[type="range"]::-webkit-slider-thumb {
+    appearance: none;
+    -webkit-appearance: none;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #F5B041, #D4941C);
+    cursor: pointer;
+    border: 2px solid #1A1A1A;
+    box-shadow: 0 2px 8px rgba(245, 176, 65, 0.3);
+}
+
+.lock-modal__input-section input[type="range"]::-moz-range-thumb,
+.withdraw-modal input[type="range"]::-moz-range-thumb {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #F5B041, #D4941C);
+    cursor: pointer;
+    border: 2px solid #1A1A1A;
+    box-shadow: 0 2px 8px rgba(245, 176, 65, 0.3);
+}
+
+.lock-modal__input-section input[type="range"]::-webkit-slider-runnable-track,
+.withdraw-modal input[type="range"]::-webkit-slider-runnable-track {
+    height: 6px;
+    border-radius: 3px;
+    background: linear-gradient(to right, #F5B041 0%, #F5B041 var(--value-percent, 50%), rgba(255, 255, 255, 0.1) var(--value-percent, 50%));
+}
+
 .withdraw-modal__presets {
     display: flex;
     gap: 0.5rem;

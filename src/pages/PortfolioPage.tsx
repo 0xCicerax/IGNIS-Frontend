@@ -182,7 +182,7 @@ export const PortfolioPage = () => {
                             title="LP Positions"
                             value={formatCurrency(lpValue)}
                             subtitle={`${USER_POSITIONS.length} positions`}
-                            onClick={() => navigate('/liquidity')}
+                            onClick={() => navigate('/app/liquidity')}
                             color="#22C55E"
                             badge={unclaimedFees > 0 ? `+${formatCurrency(unclaimedFees)} fees` : undefined}
                         />
@@ -191,7 +191,7 @@ export const PortfolioPage = () => {
                             title="Staking"
                             value={formatCurrency(stakingValue)}
                             subtitle={`${formatNumber(USER_LOCKS.reduce((s, l) => s + l.veIgni, 0))} veIGNIS`}
-                            onClick={() => navigate('/stake')}
+                            onClick={() => navigate('/app/stake')}
                             color="#A78BFA"
                             badge={unclaimedIgnis > 0 ? `+${unclaimedIgnis.toFixed(1)} IGNIS` : undefined}
                         />
@@ -260,7 +260,7 @@ export const PortfolioPage = () => {
                         <CardBody>
                             <div className="card__section-header">
                                 <h3 className="card__section-title">LP Positions</h3>
-                                <button className="card__section-link" onClick={() => navigate('/liquidity')}>
+                                <button className="card__section-link" onClick={() => navigate('/app/liquidity')}>
                                     Manage →
                                 </button>
                             </div>
@@ -289,7 +289,7 @@ export const PortfolioPage = () => {
                                     );
                                 })}
                                 {USER_POSITIONS.length > 3 && (
-                                    <button className="positions-view-all" onClick={() => navigate('/liquidity')}>
+                                    <button className="positions-view-all" onClick={() => navigate('/app/liquidity')}>
                                         View all {USER_POSITIONS.length} positions
                                     </button>
                                 )}
@@ -405,23 +405,24 @@ interface DonutChartProps {
 
 const DonutChart: React.FC<DonutChartProps> = ({ data }) => {
     const total = data.reduce((sum, d) => sum + d.value, 0);
-    let currentAngle = -90; // Start from top
+    const radius = 35;
+    const circumference = 2 * Math.PI * radius;
+    
+    let cumulativePercent = 0;
     
     const segments = data.map(item => {
-        const angle = (item.value / total) * 360;
-        const startAngle = currentAngle;
-        currentAngle += angle;
-        return { ...item, startAngle, angle };
+        const percent = item.value / total;
+        const startPercent = cumulativePercent;
+        cumulativePercent += percent;
+        return { ...item, percent, startPercent };
     });
 
     return (
         <div className="donut-chart">
             <svg viewBox="0 0 100 100" className="donut-chart__svg">
                 {segments.map((seg, i) => {
-                    const radius = 35;
-                    const circumference = 2 * Math.PI * radius;
-                    const strokeDasharray = `${(seg.angle / 360) * circumference} ${circumference}`;
-                    const strokeDashoffset = (seg.startAngle / 360) * circumference * -1;
+                    const strokeDasharray = `${seg.percent * circumference} ${circumference}`;
+                    const strokeDashoffset = -seg.startPercent * circumference;
                     
                     return (
                         <circle

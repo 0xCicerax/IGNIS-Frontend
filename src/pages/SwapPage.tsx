@@ -17,6 +17,100 @@ import { useInputValidation, validateSwap, calculatePriceImpact, useTokenAllowan
 import { showTxToast, getErrorInfo, isUserRejection } from '../utils';
 import '../styles/swap.css';
 
+// Mock Route Display Component with TokenIcon
+const MockRouteDisplay = ({ fromToken, toToken, amount }) => {
+    // Determine route type based on token pair and amount
+    const isSplitRoute = amount > 1000 || (fromToken?.symbol === 'ETH' && toToken?.symbol === 'USDC');
+    const isMultiHop = fromToken?.symbol !== 'ETH' && toToken?.symbol !== 'USDC' && toToken?.symbol !== 'USDT';
+    
+    // Generate mock intermediate tokens for multi-hop
+    const getIntermediateToken = () => {
+        if (fromToken?.symbol === 'IGNIS') return { symbol: 'WETH', color: '#627EEA', icon: 'Ξ' };
+        if (toToken?.symbol === 'IGNIS') return { symbol: 'WETH', color: '#627EEA', icon: 'Ξ' };
+        if (fromToken?.isYieldBearing) return { symbol: 'WETH', color: '#627EEA', icon: 'Ξ' };
+        return { symbol: 'USDC', color: '#2775CA', icon: '$' };
+    };
+    
+    const intermediate = getIntermediateToken();
+    
+    // Use TokenIcon component for proper SVG icons
+    const RouteTokenIcon = ({ token, size = 28 }) => (
+        <TokenIcon token={token} size={size} />
+    );
+    
+    return (
+        <div className="mock-route-display">
+            <div className="mock-route-header">
+                <span className="mock-route-title">Route</span>
+                <span className="mock-route-meta">
+                    {isSplitRoute ? '2 paths • Split' : isMultiHop ? '2 hops' : '1 hop'} 
+                    {' • '}<span className="mock-route-savings">Best price</span>
+                </span>
+            </div>
+            
+            {isSplitRoute ? (
+                <div className="mock-route-split">
+                    <div className="mock-route-node">
+                        <RouteTokenIcon token={fromToken} />
+                    </div>
+                    <div className="mock-route-paths">
+                        <div className="mock-route-path">
+                            <span className="mock-route-percent">60%</span>
+                            <div className="mock-route-line" />
+                            <span className="mock-route-pool mock-route-pool--cl">CL 0.05%</span>
+                            <div className="mock-route-line" />
+                        </div>
+                        <div className="mock-route-path">
+                            <span className="mock-route-percent">40%</span>
+                            <div className="mock-route-line" />
+                            <span className="mock-route-pool mock-route-pool--bin">LB 0.10%</span>
+                            <div className="mock-route-line" />
+                        </div>
+                    </div>
+                    <div className="mock-route-node">
+                        <RouteTokenIcon token={toToken} />
+                    </div>
+                </div>
+            ) : isMultiHop ? (
+                <div className="mock-route-multihop">
+                    <div className="mock-route-node">
+                        <RouteTokenIcon token={fromToken} />
+                        <span className="mock-route-symbol">{fromToken?.symbol}</span>
+                    </div>
+                    <div className="mock-route-line" />
+                    <span className="mock-route-pool mock-route-pool--cl">CL 0.30%</span>
+                    <div className="mock-route-line" />
+                    <div className="mock-route-node">
+                        <RouteTokenIcon token={intermediate} size={22} />
+                        <span className="mock-route-symbol">{intermediate.symbol}</span>
+                    </div>
+                    <div className="mock-route-line" />
+                    <span className="mock-route-pool mock-route-pool--bin">LB 0.05%</span>
+                    <div className="mock-route-line" />
+                    <div className="mock-route-node">
+                        <RouteTokenIcon token={toToken} />
+                        <span className="mock-route-symbol">{toToken?.symbol}</span>
+                    </div>
+                </div>
+            ) : (
+                <div className="mock-route-single">
+                    <div className="mock-route-node">
+                        <RouteTokenIcon token={fromToken} />
+                        <span className="mock-route-symbol">{fromToken?.symbol}</span>
+                    </div>
+                    <div className="mock-route-line" />
+                    <span className="mock-route-pool mock-route-pool--cl">CL 0.05%</span>
+                    <div className="mock-route-line" />
+                    <div className="mock-route-node">
+                        <RouteTokenIcon token={toToken} />
+                        <span className="mock-route-symbol">{toToken?.symbol}</span>
+                    </div>
+                </div>
+            )}
+        </div>
+    );
+};
+
 // ─────────────────────────────────────────────────────────────────────────────
 // MAIN COMPONENT
 // ─────────────────────────────────────────────────────────────────────────────
@@ -261,10 +355,10 @@ export const SwapPage = ({ isConnected, onConnect, pendingTxs, settings }) => {
                         token={fromToken}
                         value={fromInput.value}
                         onChange={(value) => fromInput.setValue(value)}
-                        onTokenClick={() => setTokenModal({ open: true, type: 'from' })}
+                        onTokenSelect={() => setTokenModal({ open: true, type: 'from' })}
                         usdValue={fromInput.usdValue}
                         balance={fromToken?.balance}
-                        onMaxClick={fromInput.setMax}
+                        onMax={fromInput.setMax}
                         error={fromInput.error}
                     />
 
@@ -277,7 +371,7 @@ export const SwapPage = ({ isConnected, onConnect, pendingTxs, settings }) => {
                         token={toToken}
                         value={toValue ? toValue.toLocaleString(undefined, { maximumFractionDigits: 6 }) : ''}
                         readOnly
-                        onTokenClick={() => setTokenModal({ open: true, type: 'to' })}
+                        onTokenSelect={() => setTokenModal({ open: true, type: 'to' })}
                         usdValue={toValue * (toToken?.price || 0)}
                         balance={toToken?.balance}
                     />
@@ -320,6 +414,15 @@ export const SwapPage = ({ isConnected, onConnect, pendingTxs, settings }) => {
                             minReceived={minReceived}
                             slippage={slippage}
                             needsApproval={requiresApproval}
+                        />
+                    )}
+
+                    {/* Route Display */}
+                    {fromValue > 0 && (
+                        <MockRouteDisplay 
+                            fromToken={fromToken}
+                            toToken={toToken}
+                            amount={fromValue}
                         />
                     )}
 
